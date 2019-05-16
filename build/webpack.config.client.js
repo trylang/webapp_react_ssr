@@ -1,59 +1,54 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base.js');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isDev = process.env.NODE_ENV === 'development';
+
+const config = merge(baseConfig, {
   mode: 'development',
   entry: {
     index: path.join(__dirname, '../client/app.js'),
   },
   output: {
     filename: '[name].[hash].js',
-    path: path.join(__dirname, '../dist'),
-    publicPath:'/public'
   },
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: '../dist',
-    hot: true,
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template:  path.join(__dirname, '../client/index.html')
     }),
-    // new HtmlWebpackPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        },
-        vendor: {
-          chunks: "initial",
-          test: path.resolve(__dirname, "node_modules"),
-          name: "vendor",
-          enforce: true
-        }
-      }
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
     }
-  },
-  module: {
-    rules: [{
-      test: /\.jsx$/,
-      use:{
-        loader: 'babel-loader'
-      }
-    }, {
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      use:{
-        loader: 'babel-loader'
-      }
-    }]
   }
-};
+});
+
+if (isDev) {
+  config.entry = [
+    'react-hot-loader/patch',
+    path.join(__dirname, '../client/app.js'),
+  ];
+
+  config.devServer = {
+    host: '0.0.0.0', // 设置host比location或者本机ip:127.0.0.1 好的地方就是可以方便其他开发者访问我们得机器进行调试
+    port: '8888',
+    contentBase: '../dist', // 或者 path.join(__dirname, '../dist')
+    hot: true,
+    overlay: { 
+      errors: true // 代码出错时会出现错误蒙层
+    },
+    publicPath: '/public',
+    historyApiFallback: {  // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html， 还可重写，非常有用。
+      index: '/public/index.html'
+    }
+  }
+}
+
+module.exports = config;
