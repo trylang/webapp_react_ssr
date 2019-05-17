@@ -2,15 +2,18 @@ import { hot } from 'react-hot-loader/root';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 
-import App from './App.jsx';
+import App from './views/App.jsx';
 
 const root = document.getElementById('root');
 
-const render = Component => {
-  hot(Comment);
+const render = (Component) => {
+  hot(Component);
   ReactDOM.render(
-    <Component />,
+    <Router>
+      <Component />
+    </Router>,
     root
   )
 }
@@ -19,8 +22,8 @@ const render = Component => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./App.jsx', () => {
-    const NextApp = require('./App.jsx').default;
+  module.hot.accept('./views/App.jsx', () => {
+    const NextApp = require('./views/App.jsx').default;
     render(NextApp);
   })
 }
