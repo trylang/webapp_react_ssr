@@ -47,6 +47,14 @@ if (isDev) {
     publicPath: '/public',
     historyApiFallback: {  // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html， 还可重写，非常有用。
       index: '/public/index.html'
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        // target: 'https://cnodejs.org/api/v1',
+        // pathRewrite: {'^/api' : ''},
+        secure: false
+      }
     }
   }
 }

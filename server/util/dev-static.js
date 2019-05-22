@@ -38,7 +38,6 @@ compiler.watch({}, (err, stats) => {
   
   if (err) throw err;
   stats = stats.toJson();
-  // console.log('stats', stats);
   stats.errors.forEach(err => console.error(err));
   stats.warnings.forEach(warn => console.warn(warn));
   
@@ -47,9 +46,7 @@ compiler.watch({}, (err, stats) => {
     serverConfig.output.filename
   )
 
-  console.log('bundlePath', bundlePath);
   const bundle = fs.readFileSync(bundlePath, 'utf8');
-  console.log(333, bundle);
 
   const m = new Module();
   m._compile(bundle, 'server-entry.js');

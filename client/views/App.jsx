@@ -6,6 +6,8 @@ import AppRouter from '../config/router';
 export default class App extends React.Component {
   render() {
     return (
+      // <h1>This is an app!!!</h1>
+
       <nav>
         <ul>
           <li>

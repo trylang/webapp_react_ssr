@@ -14,5 +14,4 @@ module.exports = merge(baseConfig, {
     filename: 'server-entry.js',
     libraryTarget: 'commonjs2'
   },
-  plugins: [],
 });

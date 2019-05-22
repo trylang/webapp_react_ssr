@@ -22,7 +22,6 @@ export default class List extends React.Component {
       <div>
         <h1>List--- {this.props.cnodeState.name}</h1>
         <div className="master">
-  
           <ul>
             {/* 在应用中用 Link 去链接路由 */}
             {datas.map(data => (
