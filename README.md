@@ -11,3 +11,7 @@ nodemon 监听文件重启node
 1. 学习koa异步调取数据，遇到问题就是打印已拿回数据，但就是无法显示，返回not found; 
     解决办法：使用async await。[解决办法链接](https://blog.csdn.net/Run_youngman/article/details/81738503)
 
+### 20195/23
+1. `npm i prop-types -s`检查prop类型;
+
+

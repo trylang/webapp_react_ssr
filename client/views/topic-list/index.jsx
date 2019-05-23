@@ -2,7 +2,8 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import {observer, inject} from 'mobx-react';
-
+import PropTypes from 'prop-types';
+import { CnodeState } from '../../store/cnode-state';
 
 const datas = [{
   id: 12,
@@ -17,10 +18,22 @@ const datas = [{
 @inject("cnodeState")
 @observer
 export default class List extends React.Component {
+
+  constructor() {
+    super();
+    this.changeName = this.changeName.bind(this);
+  }
+
+  changeName () {
+    // this.props.cnodeState.name = event.target.value;
+    this.props.cnodeState.changeName(event.target.value);
+  }
+
   render() {
     return (
       <div>
-        <h1>List--- {this.props.cnodeState.name}</h1>
+        <input type="text" onChange={this.changeName}/>
+        <h1>List--- {this.props.cnodeState.msg}</h1>
         <div className="master">
           <ul>
             {/* 在应用中用 Link 去链接路由 */}
@@ -33,3 +46,8 @@ export default class List extends React.Component {
     )
   }
 };
+
+
+List.propTypes = {
+  cnodeState: PropTypes.instanceOf(CnodeState),
+}
